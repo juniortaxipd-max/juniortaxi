@@ -21,8 +21,7 @@
             --accent-orange: #FFAA00;
             --bg-sky: #E0F7FA;
             --white: #ffffff;
-            --shadow-soft: 0 10px 30px rgba(0, 133, 202, 0.15);
-            --shadow-hover: 0 15px 35px rgba(0, 133, 202, 0.25);
+            --success-green: #2ecc71;
             --radius-box: 24px;
             --radius-btn: 50px;
         }
@@ -55,11 +54,6 @@
             0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
-        }
-
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .reveal {
@@ -173,7 +167,7 @@
             flex: 1;
             max-width: 600px;
             z-index: 1;
-            animation: slideInUp 1s ease-out;
+            animation: slideInUp 1s ease-out; /* Príchod textu */
         }
 
         .hero-text h1 {
@@ -215,14 +209,15 @@
             z-index: 1;
         }
 
-        /* ŠTÝLY PRE VIDEO */
+        /* OPRAVENÉ VIDEO */
         .hero-img video {
-            max-width: 110%;
+            max-width: 100%; /* Aby sa zmestilo */
+            width: 600px;    /* Maximálna šírka */
             border-radius: var(--radius-box);
-            /* Biele orámovanie pre kreslený efekt */
             border: 6px solid white;
             box-shadow: var(--shadow-hover);
             animation: float 6s ease-in-out infinite;
+            background-color: #ddd; /* Pozadie kým sa načíta */
         }
 
         .wave-container {
@@ -304,7 +299,7 @@
             color: var(--dark-blue);
         }
 
-        /* --- CENNÍK A BALÍČKY --- */
+        /* --- CENNÍK --- */
         #cennik {
             background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
             padding: 80px 5%;
@@ -421,6 +416,7 @@
             font-weight: 700;
             text-align: center;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
         .btn-outline {
@@ -436,7 +432,7 @@
         }
         .btn-filled:hover { background: var(--dark-blue); }
 
-        /* --- 6. VLASTNÝ FORMULÁR --- */
+        /* --- 6. VLASTNÝ FORMULÁR (SYSTEM) --- */
         #rezervacia {
             background: linear-gradient(180deg, #f0f9ff 0%, #E0F7FA 100%);
             padding: 100px 5%;
@@ -453,16 +449,6 @@
             border: 5px solid var(--white);
         }
 
-        .form-wrapper::before {
-            content: '';
-            position: absolute;
-            top: -10px; left: -10px; right: -10px; bottom: -10px;
-            background: linear-gradient(45deg, var(--primary-blue), var(--soft-blue));
-            z-index: -1;
-            border-radius: 35px;
-            opacity: 0.3;
-        }
-
         .input-group {
             position: relative;
             margin-bottom: 1.5rem;
@@ -475,7 +461,6 @@
             transform: translateY(-50%);
             color: var(--primary-blue);
             font-size: 1.2rem;
-            transition: color 0.3s;
         }
         
         .input-group textarea + i {
@@ -533,10 +518,37 @@
         .btn-submit:hover {
             transform: scale(1.02);
             background: linear-gradient(45deg, var(--accent-orange), var(--accent-yellow));
-            box-shadow: 0 10px 30px rgba(255, 170, 0, 0.4);
         }
 
-        /* --- 7. FOOTER --- */
+        /* --- STAVY FORMULÁRA (LOADING / SUCCESS) --- */
+        .form-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        .form-message.active {
+            display: block;
+        }
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success-green);
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Spinner */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- FOOTER --- */
         footer {
             background: var(--dark-blue);
             color: white;
@@ -564,8 +576,6 @@
             .hero-text h1 { font-size: 2.8rem; }
             .row { flex-direction: column; gap: 1.5rem; }
             .input-group { margin-bottom: 1rem; }
-            /* Na mobile video trochu zmenšíme */
-            .hero-img video { max-width: 100%; }
         }
 
         @media (max-width: 768px) {
@@ -581,7 +591,6 @@
             nav.active { display: flex; animation: slideInUp 0.3s forwards; }
             .menu-toggle { display: block; }
             .logo { font-size: 1.5rem; }
-            .hero-img video { max-width: 100%; }
         }
     </style>
 </head>
@@ -616,9 +625,9 @@
             <a href="#rezervacia" class="hero-btn">Objednať modrý taxík</a>
         </div>
         <div class="hero-img">
-            <video autoplay loop muted playsinline width="100%">
-                <source src="taxi-video.mp4" type="video/mp4">
-                Váš prehliadač nepodporuje video tag.
+            <video autoplay loop muted playsinline>
+                <source src="Vytvoření_videa_se_šedým_autem.mp4" type="video/mp4">
+                Video sa nepodarilo načítať. Skontrolujte názov súboru.
             </video>
         </div>
 
@@ -657,82 +666,75 @@
         <p class="section-subtitle reveal">Vyberte si to najlepšie pre vaše potreby</p>
 
         <div class="pricing-grid">
-            
             <div class="price-card reveal">
                 <div class="price-icon"><i class="fa-solid fa-car-side"></i></div>
                 <h3 class="price-title">Služba KLASIK</h3>
-                <p class="price-desc">
-                    Ideálne pre väčšie deti, ktoré potrebujú občas previezť. Bezpečne z bodu A do bodu B (škola, babka, vlak).
-                </p>
+                <p class="price-desc">Ideálne pre väčšie deti, ktoré potrebujú občas previezť. Bezpečne z bodu A do bodu B.</p>
                 <div class="price-amount">6,00 €</div>
                 <div class="price-sub">za jazdu v rámci PD</div>
                 <ul class="price-features">
                     <li>Vyzdvihnutie dieťaťa</li>
                     <li>Bezpečný prevoz</li>
                     <li>SMS notifikácia rodičovi</li>
-                    <li>Vhodné pre samostatnejšie deti</li>
                 </ul>
-                <a href="#rezervacia" class="btn-price btn-outline" onclick="selectService('Klasik')">Vybrať Klasik</a>
+                <a onclick="selectService('Klasik')" class="btn-price btn-outline">Vybrať Klasik</a>
             </div>
 
             <div class="price-card premium reveal">
                 <div class="badge">ODPORÚČAME</div>
                 <div class="price-icon"><i class="fa-solid fa-crown"></i></div>
                 <h3 class="price-title">Služba PREMIUM</h3>
-                <p class="price-desc">
-                    Pravidelný prevoz menších detí (škôlka, krúžky). Vodič osobne odprevadí dieťa až k dverám a odovzdá ho poverenej osobe.
-                </p>
+                <p class="price-desc">Pravidelný prevoz menších detí. Vodič osobne odprevadí dieťa až k dverám.</p>
                 <div class="price-amount">9,00 €</div>
                 <div class="price-sub">za jazdu v rámci PD</div>
                 <ul class="price-features">
                     <li><strong>Osobný sprievod až k dverám</strong></li>
-                    <li>Odovzdanie do rúk učiteľky/trénera</li>
+                    <li>Odovzdanie do rúk učiteľky</li>
                     <li>SMS notifikácia rodičovi</li>
-                    <li>Vhodné pre najmenších</li>
-                    <li>Možnosť dlhodobej spolupráce</li>
                 </ul>
-                <a href="#rezervacia" class="btn-price btn-filled" onclick="selectService('Premium')">Vybrať Premium</a>
+                <a onclick="selectService('Premium')" class="btn-price btn-filled">Vybrať Premium</a>
             </div>
-
-        </div>
-        <p style="margin-top: 2rem; color: #777; font-size: 0.9rem;">
-            * Ceny sú orientačné pre mesto Prievidza. Pri pravidelnom vození je možná individuálna dohoda.
-            <br>
-            Tip pre rodičov: Prvé jazdy pri službe PREMIUM odporúčame absolvovať spoločne s dieťaťom. 🙂
-        </p>
-    </section>
-
-    <section id="o-nas" style="padding: 50px 5%; background: white;">
-        <div class="reveal" style="text-align: center; max-width: 800px; margin: 0 auto; background: var(--bg-sky); padding: 3rem; border-radius: 30px;">
-            <i class="fa-solid fa-circle-info" style="font-size: 2rem; color: var(--primary-blue); margin-bottom: 1rem;"></i>
-            <h3>Kto je Chill Taxi?</h3>
-            <p style="margin-top: 1rem; font-size: 1.1rem;">
-                Sme tím, ktorý verí, že doprava detí má byť zážitok, nie povinnosť. 
-                Všetky naše služby poskytujeme pod oficiálnou koncesiou <strong>Chill Taxi</strong>. 
-                To znamená, že spĺňame všetky prísne legislatívne podmienky, máme poistenie a autá v tip-top stave.
-            </p>
         </div>
     </section>
 
     <section id="rezervacia">
         <h2 class="section-title reveal" style="text-align: center;">Chcem objednať jazdu!</h2>
-        <p class="section-subtitle reveal" style="text-align: center;">Vyplňte formulár a my si pripravíme motor.</p>
+        <p class="section-subtitle reveal" style="text-align: center;">Vyplňte formulár a rezervácia vám príde na email.</p>
 
         <div class="form-wrapper reveal">
-            <form id="bookingForm" onsubmit="sendEmail(event)">
+            
+            <div id="loadingMessage" class="form-message">
+                <div class="loader"></div>
+                <h3>Odosielam objednávku...</h3>
+                <p>Prosím čakajte, prepájam systémy.</p>
+            </div>
+
+            <div id="successMessage" class="form-message">
+                <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <h3>Objednávka úspešne odoslaná!</h3>
+                <p>Ďakujeme. Podrobnosti sme odoslali na juniortaxipd@gmail.com.</p>
+                <p>Čoskoro vás budeme kontaktovať pre potvrdenie.</p>
+                <button onclick="resetForm()" class="btn-submit" style="margin-top:20px; width:auto; padding: 10px 30px;">Nová objednávka</button>
+            </div>
+
+            <form id="bookingForm" onsubmit="submitForm(event)">
                 
+                <input type="hidden" name="_subject" value="Nová objednávka - Junior Taxi">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+
                 <div class="row">
                     <div class="col">
                         <label style="font-weight: bold; margin-bottom: 5px; display: block;">Meno rodiča</label>
                         <div class="input-group">
-                            <input type="text" id="parentName" class="custom-input" placeholder="Peter Novák" required>
+                            <input type="text" name="Rodič" class="custom-input" placeholder="Peter Novák" required>
                             <i class="fa-solid fa-user"></i>
                         </div>
                     </div>
                     <div class="col">
                         <label style="font-weight: bold; margin-bottom: 5px; display: block;">Meno dieťaťa</label>
                         <div class="input-group">
-                            <input type="text" id="childName" class="custom-input" placeholder="Zuzka" required>
+                            <input type="text" name="Dieťa" class="custom-input" placeholder="Zuzka" required>
                             <i class="fa-solid fa-child-reaching"></i>
                         </div>
                     </div>
@@ -742,14 +744,14 @@
                     <div class="col">
                         <label style="font-weight: bold; margin-bottom: 5px; display: block;">Telefón</label>
                         <div class="input-group">
-                            <input type="tel" id="phone" class="custom-input" placeholder="09XX XXX XXX" required>
+                            <input type="tel" name="Telefón" class="custom-input" placeholder="09XX XXX XXX" required>
                             <i class="fa-solid fa-phone"></i>
                         </div>
                     </div>
                     <div class="col">
                         <label style="font-weight: bold; margin-bottom: 5px; display: block;">Dátum a čas</label>
                         <div class="input-group">
-                            <input type="datetime-local" id="datetime" class="custom-input" required>
+                            <input type="datetime-local" name="Termín" class="custom-input" required>
                             <i class="fa-regular fa-clock" style="pointer-events: none;"></i> 
                         </div>
                     </div>
@@ -759,31 +761,28 @@
                     <div class="col">
                         <label style="font-weight: bold; margin-bottom: 5px; display: block;">Odkiaľ (Adresa)</label>
                         <div class="input-group">
-                            <input type="text" id="from" class="custom-input" placeholder="Ulica, Číslo domu" required>
+                            <input type="text" name="Odkiaľ" class="custom-input" placeholder="Ulica, Číslo domu" required>
                             <i class="fa-solid fa-location-dot"></i>
                         </div>
                     </div>
                     <div class="col">
                         <label style="font-weight: bold; margin-bottom: 5px; display: block;">Kam (Škola / Krúžok)</label>
                         <div class="input-group">
-                            <input type="text" id="to" class="custom-input" placeholder="ZŠ, Ulica..." required>
+                            <input type="text" name="Kam" class="custom-input" placeholder="ZŠ, Ulica..." required>
                             <i class="fa-solid fa-flag-checkered"></i>
                         </div>
                     </div>
                 </div>
 
-                <label style="font-weight: bold; margin-bottom: 5px; display: block;">Poznámka / Preferovaný balíček</label>
+                <label style="font-weight: bold; margin-bottom: 5px; display: block;">Poznámka / Balíček</label>
                 <div class="input-group">
-                    <textarea id="note" class="custom-input" rows="3" placeholder="Tu napíšte či máte záujem o KLASIK alebo PREMIUM, prípadne typ autosedačky."></textarea>
+                    <textarea id="note" name="Poznámka" class="custom-input" rows="3" placeholder="Typ autosedačky, preferovaný balíček, atď."></textarea>
                     <i class="fa-solid fa-comment-dots"></i>
                 </div>
 
                 <button type="submit" class="btn-submit">
-                    Odoslať rezerváciu <i class="fa-solid fa-paper-plane"></i>
+                    Odoslať záväznú objednávku <i class="fa-solid fa-paper-plane"></i>
                 </button>
-                <p style="font-size: 0.85rem; color: #888; text-align: center; margin-top: 15px;">
-                    * Po kliknutí sa vám otvorí emailový klient. Stačí stlačiť "Odoslať".
-                </p>
             </form>
         </div>
     </section>
@@ -816,43 +815,54 @@
                 }
             });
         }, { threshold: 0.1 });
-
         document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-        // Predvyplnenie balíčka do poznámky
+        // Výber balíčka
         function selectService(serviceName) {
             const noteField = document.getElementById('note');
-            noteField.value = "Mám záujem o balíček: " + serviceName + ". " + noteField.value;
-            // Scroll na formulár
+            noteField.value = "Balíček: " + serviceName + ". " + noteField.value;
             document.getElementById('rezervacia').scrollIntoView({behavior: 'smooth'});
         }
 
-        // Odoslanie emailu
-        function sendEmail(e) {
-            e.preventDefault(); 
-            const parentName = document.getElementById('parentName').value;
-            const childName = document.getElementById('childName').value;
-            const phone = document.getElementById('phone').value;
-            const datetime = document.getElementById('datetime').value;
-            const from = document.getElementById('from').value;
-            const to = document.getElementById('to').value;
-            const note = document.getElementById('note').value;
+        // --- AUTOMATICKÉ ODOSLANIE EMAILU (AJAX) ---
+        function submitForm(e) {
+            e.preventDefault(); // Zastaví klasické odoslanie
 
-            const subject = encodeURIComponent("Rezervácia Junior Taxi - " + parentName);
-            const body = encodeURIComponent(
-                `Dobrý deň,\n\nMám záujem o rezerváciu jazdy Junior Taxi.\n\n` +
-                `--- ÚDAJE ---\n` +
-                `Rodič: ${parentName}\n` +
-                `Dieťa: ${childName}\n` +
-                `Telefón: ${phone}\n` +
-                `Kedy: ${datetime.replace('T', ' ')}\n` +
-                `Odkiaľ: ${from}\n` +
-                `Kam: ${to}\n` +
-                `Poznámka / Balíček: ${note}\n\n` +
-                `Prosím o potvrdenie termínu a ceny.\nĎakujem.`
-            );
+            const form = document.getElementById('bookingForm');
+            const loading = document.getElementById('loadingMessage');
+            const success = document.getElementById('successMessage');
 
-            window.location.href = `mailto:juniortaxipd@gmail.com?subject=${subject}&body=${body}`;
+            // Skryť formulár, ukázať loading
+            form.style.display = 'none';
+            loading.classList.add('active');
+
+            // Zozbieranie dát
+            const formData = new FormData(form);
+
+            // Odoslanie na FormSubmit cez AJAX (bez presmerovania)
+            fetch("https://formsubmit.co/ajax/juniortaxipd@gmail.com", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Úspech
+                loading.classList.remove('active');
+                success.classList.add('active');
+                form.reset();
+            })
+            .catch(error => {
+                // Chyba
+                console.error('Error:', error);
+                loading.classList.remove('active');
+                form.style.display = 'block';
+                alert('Nastala chyba pri odosielaní. Skúste to prosím znova alebo zavolajte.');
+            });
+        }
+
+        function resetForm() {
+            document.getElementById('successMessage').classList.remove('active');
+            document.getElementById('bookingForm').style.display = 'block';
         }
     </script>
 </body>
