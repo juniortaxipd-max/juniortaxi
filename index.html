@@ -215,10 +215,14 @@
             z-index: 1;
         }
 
-        .hero-img img {
+        /* ŠTÝLY PRE VIDEO */
+        .hero-img video {
             max-width: 110%;
+            border-radius: var(--radius-box);
+            /* Biele orámovanie pre kreslený efekt */
+            border: 6px solid white;
+            box-shadow: var(--shadow-hover);
             animation: float 6s ease-in-out infinite;
-            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
         }
 
         .wave-container {
@@ -300,7 +304,7 @@
             color: var(--dark-blue);
         }
 
-        /* --- NOVÉ: CENNÍK A BALÍČKY --- */
+        /* --- CENNÍK A BALÍČKY --- */
         #cennik {
             background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
             padding: 80px 5%;
@@ -368,7 +372,7 @@
             color: #666;
             margin-bottom: 2rem;
             font-size: 0.95rem;
-            min-height: 80px; /* Zarovnanie výšky */
+            min-height: 80px;
         }
 
         .price-amount {
@@ -389,7 +393,7 @@
             list-style: none;
             text-align: left;
             margin-bottom: 2rem;
-            flex: 1; /* Roztiahne zoznam */
+            flex: 1;
         }
 
         .price-features li {
@@ -431,7 +435,6 @@
             box-shadow: 0 5px 15px rgba(0, 133, 202, 0.3);
         }
         .btn-filled:hover { background: var(--dark-blue); }
-
 
         /* --- 6. VLASTNÝ FORMULÁR --- */
         #rezervacia {
@@ -561,6 +564,8 @@
             .hero-text h1 { font-size: 2.8rem; }
             .row { flex-direction: column; gap: 1.5rem; }
             .input-group { margin-bottom: 1rem; }
+            /* Na mobile video trochu zmenšíme */
+            .hero-img video { max-width: 100%; }
         }
 
         @media (max-width: 768px) {
@@ -576,7 +581,7 @@
             nav.active { display: flex; animation: slideInUp 0.3s forwards; }
             .menu-toggle { display: block; }
             .logo { font-size: 1.5rem; }
-            .hero-img img { max-width: 90%; }
+            .hero-img video { max-width: 100%; }
         }
     </style>
 </head>
@@ -611,7 +616,10 @@
             <a href="#rezervacia" class="hero-btn">Objednať modrý taxík</a>
         </div>
         <div class="hero-img">
-            <img src="https://cdni.iconscout.com/illustration/premium/thumb/school-bus-5573673-4660460.png" alt="Veselý školský autobus">
+            <video autoplay loop muted playsinline width="100%">
+                <source src="taxi-video.mp4" type="video/mp4">
+                Váš prehliadač nepodporuje video tag.
+            </video>
         </div>
 
         <div class="wave-container">
