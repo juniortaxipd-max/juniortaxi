@@ -3,54 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Junior Taxi – Hravý a bezpečný odvoz (Chill Taxi)</title>
+    <title>Junior Taxi – Veselý odvoz pre deti</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- 1. ZÁKLADNÉ PREMENNÉ A RESET --- */
+        /* --- 1. ZÁKLADNÉ PREMENNÉ --- */
         :root {
             --primary-blue: #0085CA;
-            --soft-blue: #4facfe;
+            --light-blue: #E0F7FA;
             --dark-blue: #00294d;
             --accent-yellow: #FFD700;
-            --accent-orange: #FFAA00;
-            --bg-sky: #E0F7FA;
-            --white: #ffffff;
-            --success-green: #2ecc71;
-            --radius-box: 24px;
-            --radius-btn: 50px;
+            --radius: 20px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         html { scroll-behavior: smooth; overflow-x: hidden; }
 
         body {
-            font-family: 'Nunito', sans-serif;
-            background-color: var(--bg-sky);
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--light-blue);
             color: var(--dark-blue);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Fredoka', sans-serif;
-            letter-spacing: 0.5px;
-        }
+        h1, h2, h3 { font-family: 'Comfortaa', cursive; font-weight: 700; }
 
         /* --- 2. ANIMÁCIE --- */
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
 
-        @keyframes pulse-yellow {
+        @keyframes pulse-btn {
             0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
@@ -66,276 +57,158 @@
             transform: translateY(0);
         }
 
-        /* --- 3. NAVIGÁCIA --- */
+        /* --- 3. MASCOT (ŠMOLKO VPRAVO) --- */
+        .mascot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            pointer-events: none;
+        }
+
+        .mascot-widget {
+            width: 180px; /* ZVÄČŠENÉ NA PC (pôvodne 110px) */
+            height: auto;
+            cursor: pointer;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+            transition: transform 0.3s;
+            animation: float 4s ease-in-out infinite;
+            pointer-events: auto;
+        }
+        .mascot-widget:hover { transform: scale(1.1) rotate(-5deg); }
+        
+        .mascot-bubble {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            border-bottom-right-radius: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+            margin-right: 30px; /* Trochu viac miesta od veľkého šmolka */
+            opacity: 0;
+            animation: popIn 0.5s 1s forwards;
+            pointer-events: auto;
+        }
+        @keyframes popIn { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
+
+        /* --- 4. NAVIGÁCIA --- */
         header {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 5%;
+            backdrop-filter: blur(8px);
+            padding: 0.8rem 5%;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 1.4rem;
             color: var(--primary-blue);
+            font-family: 'Comfortaa', cursive;
             display: flex;
             flex-direction: column;
             line-height: 1.2;
         }
-        
-        .logo i { color: var(--accent-orange); margin-right: 8px; }
-        
-        .sub-logo {
-            font-size: 0.7rem;
-            color: #666;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 600;
-            margin-left: 2px;
-        }
+        .sub-logo { font-size: 0.7rem; color: #666; font-family: 'Open Sans', sans-serif; }
 
-        nav ul { display: flex; list-style: none; gap: 2rem; align-items: center; }
-        
-        nav a {
-            text-decoration: none;
-            color: var(--dark-blue);
-            font-weight: 700;
-            font-size: 1.1rem;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            width: 0; height: 3px;
-            bottom: -5px; left: 0;
-            background-color: var(--accent-yellow);
-            transition: width 0.3s;
-            border-radius: 2px;
-        }
-        
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav a { text-decoration: none; color: var(--dark-blue); font-weight: 700; transition: 0.3s; }
         nav a:hover { color: var(--primary-blue); }
-        nav a:hover::after { width: 100%; }
 
-        .btn-cta-nav {
+        .btn-nav {
             background: var(--accent-yellow);
-            padding: 0.7rem 1.5rem;
-            border-radius: var(--radius-btn);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
             color: var(--dark-blue) !important;
             box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
-            transition: transform 0.2s;
         }
-        
-        .btn-cta-nav:hover {
-            transform: scale(1.05);
-            background: #ffe033;
-        }
-        .btn-cta-nav::after { display: none; }
 
-        .menu-toggle { display: none; font-size: 1.8rem; color: var(--primary-blue); cursor: pointer; }
+        .menu-toggle { display: none; font-size: 1.8rem; color: var(--primary-blue); }
 
-        /* --- 4. HERO SEKCIA --- */
+        /* --- 5. HERO SEKCIA --- */
         #hero {
-            padding: 180px 5% 100px;
-            background: linear-gradient(120deg, #E0F7FA 0%, #ffffff 100%);
+            padding: 130px 5% 60px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background: radial-gradient(circle at top left, #fff, var(--light-blue));
         }
 
-        .bubble {
-            position: absolute;
-            background: rgba(0, 133, 202, 0.05);
-            border-radius: 50%;
-            z-index: 0;
-        }
-        .b1 { width: 300px; height: 300px; top: -50px; left: -100px; }
-        .b2 { width: 200px; height: 200px; bottom: 50px; right: 10%; background: rgba(255, 215, 0, 0.1); }
+        .hero-text { flex: 1; min-width: 300px; animation: slideInLeft 1s; }
+        @keyframes slideInLeft { from { opacity:0; transform: translateX(-50px); } to { opacity:1; transform: translateX(0); } }
 
-        .hero-text {
-            flex: 1;
-            max-width: 600px;
-            z-index: 1;
-            animation: slideInUp 1s ease-out; /* Príchod textu */
-        }
-
-        .hero-text h1 {
-            font-size: 3.5rem;
-            color: var(--primary-blue);
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-        }
-
-        .hero-text p {
-            font-size: 1.3rem;
-            color: #546e7a;
-            margin-bottom: 2.5rem;
-        }
+        .hero-text h1 { font-size: 2.8rem; color: var(--primary-blue); margin-bottom: 1rem; line-height: 1.2; }
+        .hero-text p { font-size: 1.1rem; margin-bottom: 2rem; color: #555; }
 
         .hero-btn {
             display: inline-block;
             background: var(--primary-blue);
             color: white;
-            padding: 1.2rem 3rem;
-            border-radius: var(--radius-btn);
-            font-size: 1.2rem;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
             font-weight: 800;
             text-decoration: none;
-            box-shadow: 0 8px 20px rgba(0, 133, 202, 0.3);
-            transition: all 0.3s;
-            animation: pulse-yellow 2s infinite;
+            transition: 0.3s;
+            animation: pulse-btn 2s infinite;
         }
+        .hero-btn:hover { transform: scale(1.05); background: var(--dark-blue); }
 
-        .hero-btn:hover {
-            transform: translateY(-5px);
-            background: var(--dark-blue);
-        }
-
-        .hero-img {
+        .hero-video {
             flex: 1;
+            min-width: 300px;
             display: flex;
             justify-content: center;
-            z-index: 1;
-        }
-
-        /* OPRAVENÉ VIDEO */
-        .hero-img video {
-            max-width: 100%; /* Aby sa zmestilo */
-            width: 600px;    /* Maximálna šírka */
-            border-radius: var(--radius-box);
-            border: 6px solid white;
-            box-shadow: var(--shadow-hover);
-            animation: float 6s ease-in-out infinite;
-            background-color: #ddd; /* Pozadie kým sa načíta */
-        }
-
-        .wave-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
-            transform: rotate(180deg);
-        }
-        .wave-container svg {
-            position: relative;
-            display: block;
-            width: calc(100% + 1.3px);
-            height: 80px;
-        }
-        .wave-container .shape-fill { fill: #ffffff; }
-
-        /* --- 5. SEKCIA VÝHODY --- */
-        #features {
-            background: white;
-            padding: 100px 5%;
-            text-align: center;
-        }
-
-        .section-title {
-            font-size: 2.8rem;
-            color: var(--primary-blue);
-            margin-bottom: 1rem;
         }
         
-        .section-subtitle {
-            margin-bottom: 4rem;
-            font-size: 1.2rem;
-            color: #777;
+        .hero-video video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            border: 5px solid white;
+            box-shadow: 0 15px 40px rgba(0, 133, 202, 0.2);
+            animation: float 6s ease-in-out infinite;
         }
 
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .card {
-            background: #fff;
-            padding: 2.5rem;
-            border-radius: var(--radius-box);
-            box-shadow: var(--shadow-soft);
-            transition: all 0.4s;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-15px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--bg-sky);
-        }
-
-        .icon-box {
-            width: 80px;
-            height: 80px;
-            background: var(--bg-sky);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2.5rem;
-            color: var(--primary-blue);
-            transition: transform 0.5s;
-        }
-
-        .card:hover .icon-box {
-            transform: rotateY(360deg);
-            background: var(--accent-yellow);
-            color: var(--dark-blue);
-        }
-
-        /* --- CENNÍK --- */
-        #cennik {
-            background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
-            padding: 80px 5%;
-            text-align: center;
-        }
-
+        /* --- 6. CENNÍK --- */
+        #cennik { padding: 80px 5%; text-align: center; }
         .pricing-grid {
             display: flex;
             justify-content: center;
-            gap: 3rem;
+            gap: 2rem;
             flex-wrap: wrap;
-            margin-top: 2rem;
+            margin-top: 3rem;
         }
 
         .price-card {
             background: white;
-            border-radius: var(--radius-box);
-            padding: 3rem 2rem;
+            padding: 2.5rem;
+            border-radius: 25px;
             width: 100%;
-            max-width: 400px;
-            box-shadow: var(--shadow-soft);
-            transition: transform 0.3s;
-            border: 2px solid #eee;
+            max-width: 380px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 2px solid #f0f0f0;
             position: relative;
-            display: flex;
-            flex-direction: column;
+            transition: transform 0.3s;
         }
-
-        .price-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-hover);
-        }
+        .price-card:hover { transform: translateY(-10px); border-color: var(--primary-blue); }
 
         .price-card.premium {
             border: 3px solid var(--accent-yellow);
-            background: #fffdf2;
+            background: #fffdf5;
         }
 
         .badge {
@@ -343,526 +216,429 @@
             top: -15px;
             right: 20px;
             background: var(--accent-yellow);
-            color: var(--dark-blue);
             padding: 5px 15px;
             border-radius: 20px;
             font-weight: 800;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 0.8rem;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
         }
 
-        .price-icon {
-            font-size: 3rem;
-            color: var(--primary-blue);
-            margin-bottom: 1rem;
-        }
+        .price-header i { font-size: 2rem; color: var(--primary-blue); margin-bottom: 10px; }
+        .price-header h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .price-desc { color: #666; font-size: 0.9rem; margin-bottom: 20px; height: 50px; }
 
-        .price-title {
-            font-size: 1.8rem;
-            color: var(--dark-blue);
-            margin-bottom: 0.5rem;
+        .price-split {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background: #f4f9ff;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
         }
+        .p-item { display: flex; flex-direction: column; }
+        .p-val { font-size: 1.8rem; font-weight: 800; color: var(--primary-blue); font-family: 'Comfortaa'; line-height: 1; }
+        .p-label { font-size: 0.75rem; color: #777; font-weight: 600; margin-top: 5px; }
+        .divider { width: 1px; background: #ddd; }
 
-        .price-desc {
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-            min-height: 80px;
-        }
+        .features-list { list-style: none; text-align: left; margin-bottom: 2rem; }
+        .features-list li { margin-bottom: 10px; padding-left: 25px; position: relative; color: #444; font-size: 0.95rem; }
+        .features-list li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 0; color: #2ecc71; }
 
-        .price-amount {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary-blue);
-            margin-bottom: 0.5rem;
-            font-family: 'Fredoka', sans-serif;
-        }
-
-        .price-sub {
-            font-size: 0.9rem;
-            color: #888;
-            margin-bottom: 2rem;
-        }
-
-        .price-features {
-            list-style: none;
-            text-align: left;
-            margin-bottom: 2rem;
-            flex: 1;
-        }
-
-        .price-features li {
-            margin-bottom: 10px;
-            padding-left: 30px;
-            position: relative;
-            color: #444;
-        }
-
-        .price-features li::before {
-            content: '\f00c';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            color: #00ca00;
-        }
-
-        .btn-price {
+        .btn-card {
             display: block;
             width: 100%;
             padding: 1rem;
-            border-radius: var(--radius-btn);
-            text-decoration: none;
+            border-radius: 50px;
             font-weight: 700;
-            text-align: center;
-            transition: all 0.3s;
-            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
         }
+        .btn-outline { border: 2px solid var(--primary-blue); color: var(--primary-blue); }
+        .btn-outline:hover { background: var(--primary-blue); color: white; }
+        .btn-fill { background: var(--primary-blue); color: white; box-shadow: 0 5px 15px rgba(0, 133, 202, 0.3); }
+        .btn-fill:hover { background: var(--dark-blue); }
 
-        .btn-outline {
-            border: 2px solid var(--primary-blue);
-            color: var(--primary-blue);
-        }
-        .btn-outline:hover { background: var(--bg-sky); }
-
-        .btn-filled {
-            background: var(--primary-blue);
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 133, 202, 0.3);
-        }
-        .btn-filled:hover { background: var(--dark-blue); }
-
-        /* --- 6. VLASTNÝ FORMULÁR (SYSTEM) --- */
-        #rezervacia {
-            background: linear-gradient(180deg, #f0f9ff 0%, #E0F7FA 100%);
-            padding: 100px 5%;
-        }
-
-        .form-wrapper {
+        /* --- 7. FORMULÁR --- */
+        #rezervacia { padding: 80px 5%; background: linear-gradient(180deg, #fff 0%, #E0F7FA 100%); }
+        .form-container {
             max-width: 800px;
             margin: 0 auto;
             background: white;
-            padding: 3rem;
+            padding: 2.5rem;
             border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 133, 202, 0.15);
-            position: relative;
-            border: 5px solid var(--white);
+            box-shadow: 0 20px 50px rgba(0, 133, 202, 0.15);
+            border: 5px solid white;
         }
 
-        .input-group {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .input-group i {
+        .input-row { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .input-group { flex: 1; min-width: 250px; position: relative; }
+        .input-group label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 0.9rem; color: var(--dark-blue); }
+        
+        .input-wrapper { position: relative; }
+        .input-wrapper i {
             position: absolute;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
+            top: 50%; left: 15px; transform: translateY(-50%);
             color: var(--primary-blue);
-            font-size: 1.2rem;
         }
         
-        .input-group textarea + i {
-            top: 25px;
-        }
-
-        .custom-input {
+        input, select, textarea {
             width: 100%;
-            padding: 1rem 1rem 1rem 3.5rem;
-            border: 2px solid #e1f1ff;
+            padding: 1rem 1rem 1rem 3rem; 
+            border: 2px solid #eef6ff;
             border-radius: 15px;
             background: #f9fcff;
-            font-size: 1rem;
             font-family: inherit;
-            transition: all 0.3s;
-            color: var(--dark-blue);
+            transition: 0.3s;
         }
+        input:focus, textarea:focus { outline: none; border-color: var(--accent-yellow); background: white; }
 
-        .custom-input:focus {
-            outline: none;
-            border-color: var(--accent-orange);
-            background: white;
-            box-shadow: 0 5px 15px rgba(255, 170, 0, 0.15);
-        }
-
-        .custom-input:focus + i {
-            color: var(--accent-orange);
-        }
-
-        .row {
-            display: flex;
-            gap: 1.5rem;
-        }
-        .col { flex: 1; }
+        .gdpr-box { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 1.5rem; font-size: 0.85rem; }
+        .gdpr-box input { width: auto; margin-top: 5px; }
 
         .btn-submit {
-            width: 100%;
-            padding: 1.2rem;
-            border: none;
-            border-radius: 15px;
-            background: linear-gradient(45deg, var(--primary-blue), var(--soft-blue));
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 800;
-            font-family: 'Fredoka', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 10px 25px rgba(0, 133, 202, 0.3);
+            width: 100%; padding: 1.2rem; border: none; border-radius: 15px;
+            background: linear-gradient(45deg, var(--primary-blue), #4facfe);
+            color: white; font-weight: 800; font-size: 1.1rem;
+            cursor: pointer; transition: 0.3s;
         }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
 
-        .btn-submit:hover {
-            transform: scale(1.02);
-            background: linear-gradient(45deg, var(--accent-orange), var(--accent-yellow));
-        }
-
-        /* --- STAVY FORMULÁRA (LOADING / SUCCESS) --- */
-        .form-message {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-        }
-        .form-message.active {
-            display: block;
-        }
-        .success-icon {
-            font-size: 4rem;
-            color: var(--success-green);
-            margin-bottom: 1rem;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        /* Spinner */
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--primary-blue);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .hidden { display: none; }
+        .success-msg { text-align: center; padding: 2rem; color: #27ae60; }
+        .success-msg i { font-size: 4rem; margin-bottom: 1rem; animation: float 2s infinite; }
 
         /* --- FOOTER --- */
-        footer {
-            background: var(--dark-blue);
+        footer { background: var(--dark-blue); color: white; padding: 3rem 5% 5rem; text-align: center; }
+
+        /* --- COOKIES BANNER (OFICIÁLNY) --- */
+        #cookieBanner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 41, 77, 0.98);
             color: white;
-            padding: 4rem 5% 2rem;
+            padding: 20px;
             text-align: center;
-            position: relative;
+            transform: translateY(100%);
+            transition: transform 0.5s ease-out;
+            z-index: 99999;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
-        .footer-wave {
-            position: absolute;
-            top: -50px; left: 0; width: 100%; height: 50px;
-            background: var(--dark-blue);
-            mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="white"/></svg>');
-            -webkit-mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="white"/></svg>');
-            mask-size: cover;
-            -webkit-mask-size: cover;
+        .cookie-btn {
+            background: var(--accent-yellow);
+            color: var(--dark-blue);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8rem;
         }
 
-        .footer-info p { margin-bottom: 0.5rem; opacity: 0.8; }
-        .footer-info strong { color: var(--accent-yellow); }
-
-        /* --- RESPONZIVITA --- */
-        @media (max-width: 900px) {
-            #hero { flex-direction: column-reverse; text-align: center; padding-top: 140px; }
-            .hero-text h1 { font-size: 2.8rem; }
-            .row { flex-direction: column; gap: 1.5rem; }
-            .input-group { margin-bottom: 1rem; }
-        }
-
+        /* --- MOBILNÉ ÚPRAVY --- */
         @media (max-width: 768px) {
-            nav {
-                display: none;
-                position: absolute;
-                top: 80px; left: 0; width: 100%;
-                background: white;
-                flex-direction: column;
-                padding: 2rem;
-                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            }
-            nav.active { display: flex; animation: slideInUp 0.3s forwards; }
+            #hero { padding-top: 100px; text-align: center; }
+            .hero-text h1 { font-size: 2.2rem; }
+            nav { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: white; flex-direction: column; padding: 2rem; border-bottom: 3px solid var(--accent-yellow); }
+            nav.active { display: flex; }
             .menu-toggle { display: block; }
-            .logo { font-size: 1.5rem; }
+            
+            /* Mascot na mobile - ZVÄČŠENÝ */
+            .mascot-widget { width: 130px; } /* Pôvodne 90px */
+            .mascot-container { bottom: 80px; right: 10px; } 
+            .mascot-bubble { font-size: 0.75rem; padding: 8px 12px; margin-right: 15px; }
+            
+            footer { padding-bottom: 120px; }
+            #cookieBanner { flex-direction: column; padding-bottom: 30px; }
         }
     </style>
 </head>
 <body>
+
+    <div class="mascot-container">
+        <div class="mascot-bubble">Zavez ma čarovńým autíčkom! 👋</div>
+        <img src="smolko.png" alt="Objednať" class="mascot-widget" onclick="scrollToForm()" onerror="this.style.display='none'">
+    </div>
 
     <header>
         <div class="logo">
             <span><i class="fa-solid fa-van-shuttle"></i> JUNIOR TAXI</span>
             <span class="sub-logo">powered by Chill Taxi</span>
         </div>
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <i class="fa-solid fa-bars"></i>
-        </div>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
         <nav id="navbar">
             <ul>
                 <li><a href="#hero">Domov</a></li>
-                <li><a href="#features">Výhody</a></li>
                 <li><a href="#cennik">Cenník</a></li>
-                <li><a href="#o-nas">O nás</a></li>
-                <li><a href="#rezervacia" class="btn-cta-nav">Rezervovať jazdu</a></li>
+                <li><a href="#rezervacia" class="btn-nav">Objednať</a></li>
             </ul>
         </nav>
     </header>
 
     <section id="hero">
-        <div class="bubble b1"></div>
-        <div class="bubble b2"></div>
-        
         <div class="hero-text">
-            <h1>Bezpečný odvoz <br> do školy a na krúžky</h1>
-            <p>Rodičia, oddýchnite si. My sa postaráme o to, aby vaše deti prišli tam, kam majú – bezpečne, včas a s úsmevom.</p>
-            <a href="#rezervacia" class="hero-btn">Objednať modrý taxík</a>
+            <h1>Bezpečný odvoz <br> do škôlky,školy, na krúžky....</h1>
+            <p>Rodičia, oddýchnite si. My sa postaráme o to, aby vaše deti prišli tam, kam majú – včas a s úsmevom.</p>
+            <a href="#rezervacia" class="hero-btn">Objednať čarovný taxík</a>
         </div>
-        <div class="hero-img">
+        <div class="hero-video">
             <video autoplay loop muted playsinline>
-                <source src="Vytvoření_videa_se_šedým_autem.mp4" type="video/mp4">
-                Video sa nepodarilo načítať. Skontrolujte názov súboru.
+                <source src="video.mp4" type="video/mp4">
+                Váš prehliadač nepodporuje video.
             </video>
-        </div>
-
-        <div class="wave-container">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-            </svg>
-        </div>
-    </section>
-
-    <section id="features">
-        <h2 class="section-title reveal">Prečo si deti (a rodičia) vyberajú nás?</h2>
-        <p class="section-subtitle reveal">Nie sme len taxi, sme kamoši na cestách pod koncesiou Chill Taxi.</p>
-        
-        <div class="cards-grid">
-            <div class="card reveal">
-                <div class="icon-box"><i class="fa-solid fa-shield-heart"></i></div>
-                <h3>Super Bezpečnosť</h3>
-                <p>Kvalitné sedačky pre každú veľkosť dieťaťa a šoféri, ktorí jazdia opatrne ako s vajíčkami.</p>
-            </div>
-            <div class="card reveal">
-                <div class="icon-box"><i class="fa-solid fa-user-astronaut"></i></div>
-                <h3>Veselí Vodiči</h3>
-                <p>Naši šoféri sú preverení profesionáli, ktorí vedia, ako rozosmiať, ale aj kedy dávať pozor.</p>
-            </div>
-            <div class="card reveal">
-                <div class="icon-box"><i class="fa-solid fa-stopwatch"></i></div>
-                <h3>Presne na čas</h3>
-                <p>Škola ani tréning nepočkajú. My sme tam vždy včas, aby ste vy nemuseli stresovať.</p>
-            </div>
         </div>
     </section>
 
     <section id="cennik">
         <h2 class="section-title reveal">Naše Balíčky</h2>
-        <p class="section-subtitle reveal">Vyberte si to najlepšie pre vaše potreby</p>
+        <p class="section-subtitle reveal">Vyberte si to najlepšie pre vaše detičky</p>
 
         <div class="pricing-grid">
+            
             <div class="price-card reveal">
-                <div class="price-icon"><i class="fa-solid fa-car-side"></i></div>
-                <h3 class="price-title">Služba KLASIK</h3>
-                <p class="price-desc">Ideálne pre väčšie deti, ktoré potrebujú občas previezť. Bezpečne z bodu A do bodu B.</p>
-                <div class="price-amount">6,00 €</div>
-                <div class="price-sub">za jazdu v rámci PD</div>
-                <ul class="price-features">
+                <div class="price-header">
+                    <i class="fa-solid fa-car-side"></i>
+                    <h3>Služba KLASIK</h3>
+                </div>
+                <p class="price-desc">Jednorazový prevoz väčších detí (škola, babka, vlak).</p>
+                
+                <div class="price-split">
+                    <div class="p-item">
+                        <span class="p-val">5 €</span>
+                        <span class="p-label">Prievidza</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="p-item">
+                        <span class="p-val">7 €</span>
+                        <span class="p-label">Okolie PD</span>
+                    </div>
+                </div>
+
+                <ul class="features-list">
                     <li>Vyzdvihnutie dieťaťa</li>
                     <li>Bezpečný prevoz</li>
                     <li>SMS notifikácia rodičovi</li>
                 </ul>
-                <a onclick="selectService('Klasik')" class="btn-price btn-outline">Vybrať Klasik</a>
+                <a href="#rezervacia" class="btn-card btn-outline" onclick="selectService('Klasik')">Vybrať Klasik</a>
             </div>
 
             <div class="price-card premium reveal">
                 <div class="badge">ODPORÚČAME</div>
-                <div class="price-icon"><i class="fa-solid fa-crown"></i></div>
-                <h3 class="price-title">Služba PREMIUM</h3>
-                <p class="price-desc">Pravidelný prevoz menších detí. Vodič osobne odprevadí dieťa až k dverám.</p>
-                <div class="price-amount">9,00 €</div>
-                <div class="price-sub">za jazdu v rámci PD</div>
-                <ul class="price-features">
+                <div class="price-header">
+                    <i class="fa-solid fa-crown"></i>
+                    <h3>Služba PREMIUM</h3>
+                </div>
+                <p class="price-desc">Pravidelný prevoz menších detí s osobným sprievodom.</p>
+                
+                <div class="price-split">
+                    <div class="p-item">
+                        <span class="p-val">8 €</span>
+                        <span class="p-label">Prievidza</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="p-item">
+                        <span class="p-val">10 €</span>
+                        <span class="p-label">Okolie PD</span>
+                    </div>
+                </div>
+
+                <ul class="features-list">
                     <li><strong>Osobný sprievod až k dverám</strong></li>
                     <li>Odovzdanie do rúk učiteľky</li>
                     <li>SMS notifikácia rodičovi</li>
                 </ul>
-                <a onclick="selectService('Premium')" class="btn-price btn-filled">Vybrať Premium</a>
+                <a href="#rezervacia" class="btn-card btn-fill" onclick="selectService('Premium')">Vybrať Premium</a>
             </div>
         </div>
     </section>
 
     <section id="rezervacia">
-        <h2 class="section-title reveal" style="text-align: center;">Chcem objednať jazdu!</h2>
-        <p class="section-subtitle reveal" style="text-align: center;">Vyplňte formulár a rezervácia vám príde na email.</p>
+        <h2 style="text-align: center; margin-bottom: 1rem;">Chcem objednať jazdu!</h2>
+        <p style="text-align: center; margin-bottom: 2rem;">Vyplňte formulár a my sa ozveme.</p>
 
-        <div class="form-wrapper reveal">
+        <div class="form-container reveal">
             
-            <div id="loadingMessage" class="form-message">
-                <div class="loader"></div>
-                <h3>Odosielam objednávku...</h3>
-                <p>Prosím čakajte, prepájam systémy.</p>
+            <div id="loading" class="hidden" style="text-align: center; padding: 20px;">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-blue);"></i>
+                <p>Odosielam objednávku...</p>
             </div>
 
-            <div id="successMessage" class="form-message">
-                <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
-                <h3>Objednávka úspešne odoslaná!</h3>
-                <p>Ďakujeme. Podrobnosti sme odoslali na juniortaxipd@gmail.com.</p>
-                <p>Čoskoro vás budeme kontaktovať pre potvrdenie.</p>
-                <button onclick="resetForm()" class="btn-submit" style="margin-top:20px; width:auto; padding: 10px 30px;">Nová objednávka</button>
+            <div id="success" class="hidden success-msg">
+                <i class="fa-solid fa-circle-check"></i>
+                <h3>Objednávka odoslaná!</h3>
+                <p>Ďakujeme. Údaje sme prijali, čoskoro vás budeme kontaktovať.</p>
+                <button onclick="location.reload()" class="btn-submit" style="margin-top: 15px; width: auto;">Nová objednávka</button>
             </div>
 
             <form id="bookingForm" onsubmit="submitForm(event)">
-                
                 <input type="hidden" name="_subject" value="Nová objednávka - Junior Taxi">
                 <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_template" value="table">
 
-                <div class="row">
-                    <div class="col">
-                        <label style="font-weight: bold; margin-bottom: 5px; display: block;">Meno rodiča</label>
-                        <div class="input-group">
-                            <input type="text" name="Rodič" class="custom-input" placeholder="Peter Novák" required>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Meno rodiča</label>
+                        <div class="input-wrapper">
                             <i class="fa-solid fa-user"></i>
+                            <input type="text" name="Rodic" placeholder="Jozef Novák" required>
                         </div>
                     </div>
-                    <div class="col">
-                        <label style="font-weight: bold; margin-bottom: 5px; display: block;">Meno dieťaťa</label>
-                        <div class="input-group">
-                            <input type="text" name="Dieťa" class="custom-input" placeholder="Zuzka" required>
-                            <i class="fa-solid fa-child-reaching"></i>
+                    <div class="input-group">
+                        <label>Meno dieťaťa</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-child"></i>
+                            <input type="text" name="Dieta" placeholder="Zuzka" required>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col">
-                        <label style="font-weight: bold; margin-bottom: 5px; display: block;">Telefón</label>
-                        <div class="input-group">
-                            <input type="tel" name="Telefón" class="custom-input" placeholder="09XX XXX XXX" required>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Telefón</label>
+                        <div class="input-wrapper">
                             <i class="fa-solid fa-phone"></i>
+                            <input type="tel" name="Telefon" placeholder="09XX XXX XXX" required>
                         </div>
                     </div>
-                    <div class="col">
-                        <label style="font-weight: bold; margin-bottom: 5px; display: block;">Dátum a čas</label>
-                        <div class="input-group">
-                            <input type="datetime-local" name="Termín" class="custom-input" required>
-                            <i class="fa-regular fa-clock" style="pointer-events: none;"></i> 
+                    <div class="input-group">
+                        <label>Dátum a čas</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-clock"></i>
+                            <input type="datetime-local" name="Termin" required>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col">
-                        <label style="font-weight: bold; margin-bottom: 5px; display: block;">Odkiaľ (Adresa)</label>
-                        <div class="input-group">
-                            <input type="text" name="Odkiaľ" class="custom-input" placeholder="Ulica, Číslo domu" required>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Odkiaľ (Adresa)</label>
+                        <div class="input-wrapper">
                             <i class="fa-solid fa-location-dot"></i>
+                            <input type="text" name="Odkial" placeholder="Ulica, Číslo domu" required>
                         </div>
                     </div>
-                    <div class="col">
-                        <label style="font-weight: bold; margin-bottom: 5px; display: block;">Kam (Škola / Krúžok)</label>
-                        <div class="input-group">
-                            <input type="text" name="Kam" class="custom-input" placeholder="ZŠ, Ulica..." required>
-                            <i class="fa-solid fa-flag-checkered"></i>
+                    <div class="input-group">
+                        <label>Kam (Začni písať názov školy/škôlky...)</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-school"></i>
+                            <input type="text" name="Kam" list="skoly-pd" placeholder="Vyber zo zoznamu alebo napíš..." required>
+                            
+                            <datalist id="skoly-pd">
+                                <option value="ZŠ Sama Chalupku">
+                                <option value="ZŠ Rastislavova">
+                                <option value="ZŠ Mariánska">
+                                <option value="ZŠ Energetikov">
+                                <option value="ZŠ Malonecpalská">
+                                <option value="ZŠ P. J. Šafárika">
+                                <option value="ZŠ Dobšinského">
+                                <option value="Piaristická škola (ZŠ)">
+                                <option value="MŠ Cesta Vl. Clementisa">
+                                <option value="MŠ Nábrežie sv. Cyrila">
+                                <option value="MŠ M. Mišíka">
+                                <option value="MŠ Športová">
+                                <option value="MŠ D. Krmana">
+                                <option value="MŠ P. Benického">
+                                <option value="MŠ A. Mišúta">
+                                <option value="MŠ J. Matušku">
+                                <option value="MŠ Malonecpalská">
+                                <option value="ZUŠ L. Stančeka">
+                                <option value="CVČ Spektrum">
+                            </datalist>
                         </div>
                     </div>
                 </div>
 
-                <label style="font-weight: bold; margin-bottom: 5px; display: block;">Poznámka / Balíček</label>
-                <div class="input-group">
-                    <textarea id="note" name="Poznámka" class="custom-input" rows="3" placeholder="Typ autosedačky, preferovaný balíček, atď."></textarea>
-                    <i class="fa-solid fa-comment-dots"></i>
+                <div class="input-group" style="margin-bottom: 1.5rem;">
+                    <label>Poznámka / Balíček</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        <textarea id="note" name="Poznamka" rows="3" placeholder="Mám záujem o KLASIK/PREMIUM, potrebujem podsedák..."></textarea>
+                    </div>
                 </div>
 
-                <button type="submit" class="btn-submit">
-                    Odoslať záväznú objednávku <i class="fa-solid fa-paper-plane"></i>
-                </button>
+                <div class="gdpr-box">
+                    <input type="checkbox" required>
+                    <span>Súhlasím so spracovaním osobných údajov pre účely vybavenia objednávky.</span>
+                </div>
+
+                <button type="submit" class="btn-submit">Odoslať objednávku <i class="fa-solid fa-paper-plane"></i></button>
             </form>
         </div>
     </section>
 
     <footer>
-        <div class="footer-wave"></div>
-        <div class="footer-content">
-            <h2 style="font-family: 'Fredoka', sans-serif; margin-bottom: 1rem; color: var(--accent-yellow);">JUNIOR TAXI</h2>
-            <div class="footer-info">
-                <p><i class="fa-solid fa-envelope"></i> juniortaxipd@gmail.com</p>
-                <p><i class="fa-solid fa-phone"></i> +421 900 123 456</p>
-                <br>
-                <p>Prevádzkovateľ: <strong>Chill Taxi s.r.o.</strong></p>
-                <p>&copy; 2024 Junior Taxi. Všetky práva vyhradené.</p>
-            </div>
-        </div>
+        <p>&copy; 2024 Junior Taxi | Powered by Chill Taxi s.r.o.</p>
     </footer>
 
-    <script>
-        // Menu Toggle
-        function toggleMenu() {
-            document.getElementById('navbar').classList.toggle('active');
-        }
+    <div id="cookieBanner">
+        <div>
+            Táto webová stránka používa súbory cookies na zlepšenie vášho zážitku z prehliadania, 
+            analýzu návštevnosti a personalizáciu obsahu. 
+            Kliknutím na "Súhlasím" vyjadrujete súhlas s používaním cookies v súlade s GDPR.
+        </div>
+        <button class="cookie-btn" onclick="acceptCookies()">Súhlasím</button>
+    </div>
 
-        // Animácie
+    <script>
+        function toggleMenu() { document.getElementById('navbar').classList.toggle('active'); }
+        function scrollToForm() { document.getElementById('rezervacia').scrollIntoView({behavior: 'smooth'}); }
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+                if(entry.isIntersecting) entry.target.classList.add('active');
             });
-        }, { threshold: 0.1 });
+        });
         document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-        // Výber balíčka
-        function selectService(serviceName) {
-            const noteField = document.getElementById('note');
-            noteField.value = "Balíček: " + serviceName + ". " + noteField.value;
-            document.getElementById('rezervacia').scrollIntoView({behavior: 'smooth'});
+        function selectService(service) {
+            document.getElementById('note').value = "Mám záujem o balíček: " + service;
+            scrollToForm();
         }
 
-        // --- AUTOMATICKÉ ODOSLANIE EMAILU (AJAX) ---
         function submitForm(e) {
-            e.preventDefault(); // Zastaví klasické odoslanie
-
+            e.preventDefault();
             const form = document.getElementById('bookingForm');
-            const loading = document.getElementById('loadingMessage');
-            const success = document.getElementById('successMessage');
-
-            // Skryť formulár, ukázať loading
+            const loading = document.getElementById('loading');
+            const success = document.getElementById('success');
+            
             form.style.display = 'none';
-            loading.classList.add('active');
+            loading.classList.remove('hidden');
 
-            // Zozbieranie dát
             const formData = new FormData(form);
-
-            // Odoslanie na FormSubmit cez AJAX (bez presmerovania)
+            
             fetch("https://formsubmit.co/ajax/juniortaxipd@gmail.com", {
                 method: "POST",
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                // Úspech
-                loading.classList.remove('active');
-                success.classList.add('active');
+                loading.classList.add('hidden');
+                success.classList.remove('hidden');
                 form.reset();
             })
             .catch(error => {
-                // Chyba
-                console.error('Error:', error);
-                loading.classList.remove('active');
+                alert('Chyba. Skúste znova.');
+                loading.classList.add('hidden');
                 form.style.display = 'block';
-                alert('Nastala chyba pri odosielaní. Skúste to prosím znova alebo zavolajte.');
             });
         }
 
-        function resetForm() {
-            document.getElementById('successMessage').classList.remove('active');
-            document.getElementById('bookingForm').style.display = 'block';
+        // COOKIES LOGIKA
+        if (!localStorage.getItem("cookiesAccepted")) {
+            setTimeout(() => { document.getElementById("cookieBanner").style.transform = "translateY(0)"; }, 1500);
+        }
+        function acceptCookies() {
+            localStorage.setItem("cookiesAccepted", "true");
+            document.getElementById("cookieBanner").style.transform = "translateY(100%)";
         }
     </script>
 </body>
