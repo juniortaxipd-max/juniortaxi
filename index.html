@@ -97,11 +97,11 @@
         }
         @keyframes popIn { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
 
-        /* --- 4. NAVIGÁCIA --- */
+        /* --- 4. NAVIGÁCIA (Upravené Logo) --- */
         header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(8px);
-            padding: 0.8rem 5%;
+            padding: 0.5rem 5%; /* Menší padding, lebo logo je vyššie */
             position: fixed;
             width: 100%;
             top: 0;
@@ -115,13 +115,32 @@
         }
 
         .logo {
-            font-size: 1.4rem;
-            color: var(--primary-blue);
-            font-family: 'Comfortaa', cursive;
+            display: flex;
+            align-items: center; /* Zarovná obrázok a text na stred */
+            gap: 15px; /* Medzera medzi obrázkom a textom */
+            text-decoration: none;
+        }
+
+        /* Štýl pre obrázok loga */
+        .logo img {
+            height: 50px; /* Nastavená výška, aby nerozbila menu */
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text {
             display: flex;
             flex-direction: column;
             line-height: 1.2;
         }
+
+        .logo-title {
+            font-size: 1.4rem;
+            color: var(--primary-blue);
+            font-family: 'Comfortaa', cursive;
+            font-weight: 700;
+        }
+
         .sub-logo { font-size: 0.7rem; color: #666; font-family: 'Open Sans', sans-serif; }
 
         nav ul { display: flex; list-style: none; gap: 1.5rem; }
@@ -311,7 +330,7 @@
         /* --- FOOTER --- */
         footer { background: var(--dark-blue); color: white; padding: 3rem 5% 5rem; text-align: center; }
 
-        /* --- COOKIES BANNER (UPRAVENÉ) --- */
+        /* --- COOKIES BANNER --- */
         #cookieBanner {
             position: fixed;
             bottom: 0;
@@ -346,7 +365,6 @@
             transition: 0.3s;
         }
 
-        /* NOVÉ ŠTÝLY PRE TLAČIDLO NESÚHLASÍM */
         .cookie-btn.outline {
             background: transparent;
             border: 2px solid var(--accent-yellow);
@@ -371,7 +389,6 @@
             
             footer { padding-bottom: 120px; }
             
-            /* Cookies na mobile - tlačidlá vedľa seba */
             #cookieBanner { flex-direction: column; padding-bottom: 30px; }
             .cookie-buttons-container { display: flex; gap: 10px; }
         }
@@ -386,9 +403,13 @@
 
     <header>
         <div class="logo">
-            <span><i class="fa-solid fa-van-shuttle"></i> JUNIOR TAXI</span>
-            <span class="sub-logo">powered by Chill Taxi</span>
+            <img src="logojunior.jpg" alt="Junior Taxi Logo">
+            <div class="logo-text">
+                <span class="logo-title">JUNIOR TAXI</span>
+                <span class="sub-logo">powered by Chill Taxi</span>
+            </div>
         </div>
+        
         <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
         <nav id="navbar">
             <ul>
@@ -649,7 +670,7 @@
             });
         }
 
-        // UPRAVENÁ COOKIES LOGIKA
+        // COOKIES LOGIKA
         if (!localStorage.getItem("cookiesAccepted")) {
             setTimeout(() => { document.getElementById("cookieBanner").style.transform = "translateY(0)"; }, 1500);
         }
