@@ -101,7 +101,7 @@
         header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(8px);
-            padding: 0.5rem 5%; /* Menší padding, lebo logo je vyššie */
+            padding: 0.5rem 5%;
             position: fixed;
             width: 100%;
             top: 0;
@@ -116,14 +116,13 @@
 
         .logo {
             display: flex;
-            align-items: center; /* Zarovná obrázok a text na stred */
-            gap: 15px; /* Medzera medzi obrázkom a textom */
+            align-items: center;
+            gap: 15px;
             text-decoration: none;
         }
 
-        /* Štýl pre obrázok loga */
         .logo img {
-            height: 50px; /* Nastavená výška, aby nerozbila menu */
+            height: 50px;
             width: auto;
             object-fit: contain;
         }
@@ -143,7 +142,7 @@
 
         .sub-logo { font-size: 0.7rem; color: #666; font-family: 'Open Sans', sans-serif; }
 
-        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
         nav a { text-decoration: none; color: var(--dark-blue); font-weight: 700; transition: 0.3s; }
         nav a:hover { color: var(--primary-blue); }
 
@@ -329,6 +328,58 @@
 
         /* --- FOOTER --- */
         footer { background: var(--dark-blue); color: white; padding: 3rem 5% 5rem; text-align: center; }
+        footer a { color: var(--accent-yellow); text-decoration: none; margin: 0 10px; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
+        footer a:hover { text-decoration: underline; color: white; }
+
+        /* --- VOP & GDPR MODAL STYLES --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 10001; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.6); 
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 40px;
+            border: 1px solid #888;
+            width: 90%; 
+            max-width: 900px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: slideDown 0.4s;
+            color: #333;
+        }
+        
+        @keyframes slideDown { from {top: -100px; opacity: 0;} to {top: 0; opacity: 1;} }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover { color: var(--primary-blue); }
+
+        .legal-text h2 { color: var(--primary-blue); margin-bottom: 1.5rem; text-align: center; border-bottom: 2px solid var(--accent-yellow); padding-bottom: 10px; }
+        .legal-text h3 { margin: 1.5rem 0 0.5rem; color: var(--dark-blue); font-size: 1.1rem; }
+        .legal-text p, .legal-text ul { font-size: 0.9rem; margin-bottom: 0.8rem; line-height: 1.6; }
+        .legal-text ul { padding-left: 20px; list-style-type: disc; }
+        .legal-text li { margin-bottom: 5px; }
 
         /* --- COOKIES BANNER --- */
         #cookieBanner {
@@ -344,12 +395,13 @@
             transition: transform 0.5s ease-out;
             z-index: 99999;
             box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
+            border-top: 2px solid var(--accent-yellow);
         }
         
         .cookie-btn {
@@ -382,15 +434,16 @@
             nav.active { display: flex; }
             .menu-toggle { display: block; }
             
-            /* Mascot na mobile */
             .mascot-widget { width: 130px; }
             .mascot-container { bottom: 80px; right: 10px; } 
             .mascot-bubble { font-size: 0.75rem; padding: 8px 12px; margin-right: 15px; }
             
             footer { padding-bottom: 120px; }
             
-            #cookieBanner { flex-direction: column; padding-bottom: 30px; }
-            .cookie-buttons-container { display: flex; gap: 10px; }
+            #cookieBanner { flex-direction: column; padding-bottom: 30px; text-align: justify; }
+            .cookie-buttons-container { display: flex; gap: 10px; width: 100%; justify-content: center; }
+            
+            .modal-content { margin: 5% auto; padding: 25px; width: 95%; max-height: 90vh; overflow-y: auto; }
         }
     </style>
 </head>
@@ -415,6 +468,7 @@
             <ul>
                 <li><a href="#hero">Domov</a></li>
                 <li><a href="#cennik">Cenník</a></li>
+                <li><a href="javascript:void(0)" onclick="openModal('vopModal')">Podmienky</a></li>
                 <li><a href="#rezervacia" class="btn-nav">Objednať</a></li>
             </ul>
         </nav>
@@ -602,7 +656,7 @@
 
                 <div class="gdpr-box">
                     <input type="checkbox" required>
-                    <span>Súhlasím so spracovaním osobných údajov pre účely vybavenia objednávky.</span>
+                    <span>Súhlasím so <a href="javascript:void(0)" onclick="openModal('gdprModal')">spracovaním osobných údajov</a> a <a href="javascript:void(0)" onclick="openModal('vopModal')">VOP</a> pre účely vybavenia objednávky.</span>
                 </div>
 
                 <button type="submit" class="btn-submit">Odoslať objednávku <i class="fa-solid fa-paper-plane"></i></button>
@@ -611,14 +665,128 @@
     </section>
 
     <footer>
-        <p>&copy; 2024 Junior Taxi | Powered by Chill Taxi s.r.o.</p>
+        <p>&copy; 2024 - 2026 Junior Taxi | Powered by Chill Taxi s.r.o.</p>
+        <div style="margin-top: 10px;">
+            <a href="javascript:void(0)" onclick="openModal('vopModal')">Obchodné podmienky (VOP)</a>
+            <span style="color: #666;">|</span>
+            <a href="javascript:void(0)" onclick="openModal('gdprModal')">Ochrana osobných údajov (GDPR)</a>
+        </div>
     </footer>
+
+    <div id="vopModal" class="modal">
+        <div class="modal-content legal-text">
+            <span class="close-btn" onclick="closeModal('vopModal')">&times;</span>
+            <h2>VŠEOBECNÉ OBCHODNÉ PODMIENKY (VOP)</h2>
+            <p><strong>pre službu JUNIOR TAXI (prevádzkovanú pod koncesiou Chill Taxi)</strong></p>
+            
+            <h3>I. Úvodné ustanovenia</h3>
+            <ul>
+                <li><strong>Prevádzkovateľ:</strong> Tieto Všeobecné obchodné podmienky (ďalej len „VOP“) upravujú vzťahy pri poskytovaní služby prepravy osôb, špecificky zameranej na prepravu detí a mládeže pod názvom Junior Taxi. Prevádzkovateľom služby je:
+                    <ul>
+                        <li>Obchodné meno: Lucia Naodová – Chill Taxi</li>
+                        <li>Sídlo: Boriny 509/10A, Sebedražie</li>
+                        <li>IČO: 56 996 438</li>
+                        <li>DIČ / IČ DPH: SK1048392334</li>
+                        <li>Zapísaná v: Živnostenskom registri</li>
+                    </ul>
+                    (ďalej len „Dopravca“)
+                </li>
+                <li><strong>Služba Junior Taxi:</strong> Ide o špecializovanú prepravu detí (s doprovodom alebo bez doprovodu zákonného zástupcu) vykonávanú vozidlami vybavenými certifikovanými detskými autosedačkami.</li>
+                <li><strong>Objednávateľ:</strong> Fyzická osoba (zákonný zástupca, rodič) alebo právnická osoba, ktorá službu objednáva.</li>
+                <li><strong>Cestujúci:</strong> Dieťa alebo iná osoba, ktorá je priamo prepravovaná.</li>
+            </ul>
+
+            <h3>II. Objednávka a špecifiká prepravy detí</h3>
+            <ul>
+                <li><strong>Spôsob objednania:</strong> Služba Junior Taxi nie je poskytovaná cez platformy tretích strán (napr. Bolt). Objednávku je možné vykonať výlučne:
+                    <ul>
+                        <li>Telefonicky.</li>
+                        <li>Cez webový formulár / e-mail.</li>
+                    </ul>
+                </li>
+                <li><strong>Povinné údaje:</strong> Pri objednávke je Objednávateľ v záujme bezpečnosti povinný uviesť:
+                    <ul>
+                        <li>Dátum, čas a presnú trasu (odkiaľ – kam).</li>
+                        <li>Meno a vek dieťaťa.</li>
+                        <li>(nevyhnutné pre zabezpečenie správnej kategórie autosedačky).</li>
+                        <li>Kontakt na preberajúcu osobu v cieli cesty.</li>
+                    </ul>
+                </li>
+                <li><strong>Potvrdenie:</strong> Zmluva vzniká až momentom záväzného potvrdenia objednávky zo strany Dopravcu (SMS alebo e-mailom), v ktorom Dopravca potvrdí dostupnosť vozidla s vhodnou autosedačkou.</li>
+            </ul>
+
+            <h3>III. Pravidlá prevzatia a odovzdania dieťaťa (režim bez rodiča)</h3>
+            <p>Ak je dieťa prepravované bez prítomnosti zákonného zástupcu, platia tieto prísne pravidlá:</p>
+            <ul>
+                <li><strong>Odovzdanie vodičovi:</strong> Zákonný zástupca (alebo ním poverená osoba) je povinný osobne odovzdať dieťa vodičovi pri vozidle a zabezpečiť jeho usadenie, pokiaľ sa s vodičom nedohodne inak.</li>
+                <li><strong>Odovzdanie v cieli:</strong> Vodič odovzdá dieťa v cieli cesty výlučne vopred dohodnutej dospelej osobe (napr. tréner, starý rodič, učiteľ).</li>
+                <li><strong>Nedostupnosť preberajúcej osoby:</strong> Ak sa v cieli cesty nenachádza dohodnutá osoba a nie je možné sa s ňou spojiť:
+                    <ul>
+                        <li>Vodič nikdy nenechá dieťa samotné na ulici.</li>
+                        <li>Vodič bude kontaktovať Objednávateľa (rodiča).</li>
+                        <li>Ak sa situácia nevyrieši, vodič odvezie dieťa naspäť na miesto nástupu alebo na políciu (v krajnom prípade). Všetky náklady s tým spojené (jazda späť, čakanie) hradí Objednávateľ.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>IV. Cenové a platobné podmienky</h3>
+            <ul>
+                <li><strong>Cena:</strong> Cena za prepravu Junior Taxi je zmluvná a fixná, oznámená Objednávateľovi vopred. Cena zohľadňuje nielen trasu, ale aj asistenciu vodiča a použitie detskej autosedačky.</li>
+                <li><strong>Čakanie:</strong> V cene je zahrnuté čakanie pri nástupe do 10 minút. Každá ďalšia začatá minúta čakania (napr. pri meškaní rodiča pri odovzdávaní/preberaní) môže byť spoplatnená podľa cenníka.</li>
+            </ul>
+
+            <h3>V. Storno podmienky</h3>
+            <p>Vzhľadom na nutnosť blokovania konkrétneho času a prípravy autosedačiek platia tieto storno podmienky:</p>
+            <ul>
+                <li><strong>Zrušenie viac ako 24 hodín vopred:</strong> Bez poplatku.</li>
+                <li><strong>Zrušenie menej ako 24 hodín pred jazdou:</strong> 50 % z dohodnutej ceny.</li>
+                <li><strong>Zrušenie po pristavení vozidla alebo nedostavenie sa:</strong> 100 % z dohodnutej ceny.</li>
+            </ul>
+
+            <h3>VI. Bezpečnosť, čistota a zodpovednosť</h3>
+            <ul>
+                <li><strong>Zdravotný stav:</strong> Vodič má právo odmietnuť prepravu dieťaťa, ktoré javí známky akútneho infekčného ochorenia (horúčka, silný kašeľ, zvracanie), aby chránil seba a ostatných klientov.</li>
+                <li><strong>Bezpečnostné pásy:</strong> Používanie bezpečnostných pásov a autosedačiek je povinné. Vodič nesmie začať jazdu, ak dieťa nie je riadne pripútané.</li>
+                <li><strong>Jedlo a pitie:</strong> Z bezpečnostných dôvodov (riziko dusenia sa pri brzdení) a hygienických dôvodov je počas jazdy zakázaná konzumácia jedla.</li>
+                <li><strong>Znečistenie:</strong> V prípade znečistenia interiéru vozidla (napr. pomočenie, zvratky, rozliatie nápojov, poškodenie čalúnenia fixkami/topánkami) je Objednávateľ povinný uhradiť poplatok za tepovanie a sanáciu vo výške minimálne 300 EUR.</li>
+                <li><strong>Zodpovednosť Dopravcu:</strong> Dopravca zodpovedá za bezpečnú prepravu dieťaťa v certifikovanej autosedačke a za to, že vodič má čistý register trestov a spôsobilosť na prácu s deťmi. Dopravca nenesie zodpovednosť za meškanie spôsobené nepredvídateľnou dopravnou situáciou.</li>
+            </ul>
+
+            <h3>VII. Ochrana osobných údajov (GDPR)</h3>
+            <ul>
+                <li>Dopravca spracúva údaje o dieťati a rodičoch výlučne pre účely prepravy. Údaje o trasách a časoch pohybu detí sú považované za citlivé a podliehajú prísnej mlčanlivosti.</li>
+            </ul>
+
+            <h3>VIII. Záverečné ustanovenia</h3>
+            <ul>
+                <li>Objednaním služby Junior Taxi vyjadruje zákonný zástupca súhlas s týmito podmienkami a potvrdzuje, že poskytol pravdivé údaje o veku a váhe dieťaťa.</li>
+                <li>Tieto podmienky nadobúdajú platnosť dňom 1.1.2026.</li>
+            </ul>
+            <p>V Prievidzi, dňa 1.1.2026</p>
+        </div>
+    </div>
+
+    <div id="gdprModal" class="modal">
+        <div class="modal-content legal-text">
+            <span class="close-btn" onclick="closeModal('gdprModal')">&times;</span>
+            <h2>Ochrana osobných údajov</h2>
+            
+            <h3>Rozsah spracúvania</h3>
+            <p>Dopravca spracúva údaje o dieťati (meno, vek) a rodičoch (meno, telefón, adresa) výlučne pre účely realizácie prepravy a zaistenia bezpečnosti.</p>
+            
+            <h3>Doba uchovávania</h3>
+            <p>Údaje sú uchovávané po dobu nevyhnutnú na poskytnutie služby a splnenie zákonných povinností (účtovníctvo). Trasy a časy pohybu detí sú považované za citlivé údaje a podliehajú prísnej mlčanlivosti.</p>
+            
+            <h3>Práva používateľa</h3>
+            <p>Objednávateľ má právo požiadať o prístup k svojim údajom, ich opravu, vymazanie alebo namietanie proti spracúvaniu na e-mailovej adrese: juniortaxipd@gmail.com.</p>
+        </div>
+    </div>
 
     <div id="cookieBanner">
         <div style="flex: 1; min-width: 250px;">
-            Táto webová stránka používa súbory cookies na zlepšenie vášho zážitku z prehliadania, 
-            analýzu návštevnosti a personalizáciu obsahu. 
-            Kliknutím na "Súhlasím" vyjadrujete súhlas s používaním cookies v súlade s GDPR.
+            Naša spoločnosť používa súbory cookies na zabezpečenie riadneho fungovania webovej stránky, analýzu návštevnosti a marketingové účely. 
+            Kliknutím na tlačidlo „Súhlasím“ udeľujete súhlas so spracovaním cookies v zmysle platnej legislatívy a Nariadenia GDPR. 
+            Váš súhlas môžete kedykoľvek odvolať.
         </div>
         <div class="cookie-buttons-container">
             <button class="cookie-btn outline" onclick="declineCookies()">Nesúhlasím</button>
@@ -668,6 +836,24 @@
                 loading.classList.add('hidden');
                 form.style.display = 'block';
             });
+        }
+
+        // --- MODAL LOGIC ---
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+            // Zavrie menu ak je otvorene na mobile
+            document.getElementById('navbar').classList.remove('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Zatvorenie modalu kliknutim mimo okna
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
         }
 
         // COOKIES LOGIKA
